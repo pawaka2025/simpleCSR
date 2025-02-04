@@ -1,0 +1,29 @@
+How are sparse matrices made?
+
+Consider this adjacency matrix:
+
+0 2 0 0 3
+2 0 4 5 0 
+0 4 0 6 0
+0 5 6 0 7
+3 0 0 7 0
+
+We have a number of methods to represent a sparse matrix. For now we can go with CSR.
+
+The CSR method.
+
+1 - Derive a data array, consisting of non-zero values.
+[2, 3, 2, 4, 5, 4, 6, 5, 6, 7, 3, 7]
+
+2 - Derive a column index array, consisting of columns these non-zero values are located at:
+[1, 4, 0, 2, 3, 1, 3, 1, 2, 4, 0, 3]
+
+3 - Derive a row pointers array, consisting of cumulative numbers of rows occupied by non-zero values
+We need to add an extra element on the front consisting of the value 0.
+[0, 2, 5, 7, 10, 12]
+
+Why? To facilitate performing operations (like matrix-vector multiplication).
+Keeping the arrays as single dimensional allows easier contiguous reads in memory. 
+
+We generally need a column and row in a CSR struct. Even though adjacency matrices are square, some graphs are not
+(ie bipartite graphs).
